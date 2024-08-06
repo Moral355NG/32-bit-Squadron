@@ -45,12 +45,12 @@ cloudsprite2 = pygame.image.load("Assets/Cloud 2.png")
 treesprite = pygame.image.load("Assets/Tree.png")
 lakesprite = pygame.image.load("Assets/Lake.png")
 parachutesprite = pygame.image.load("Assets/Parachute.png")
-gamelogo = pygame.image.load("Assets/Plane Box Logo.png")
+gamelogo = pygame.image.load("Assets/32bit Squadron logo.png")
 space2start = pygame.image.load("Assets/Space to start.png")
 
 pygame.init()
 pygame.display.set_icon(playersprite)
-pygame.display.set_caption("Plane Box") 
+pygame.display.set_caption("32bit Squadron") 
 
 while run:
     keys = pygame.key.get_pressed()
@@ -70,14 +70,14 @@ while run:
       ex5 = random.randint(0,640)
       ey5 = random.randint(-1000,0)
       #renders menu
-      screen.fill((0,100,200))
-      screen.blit(gamelogo,(213,100))
+      screen.fill((0,0,0))
+      screen.blit(gamelogo,(113,10))
       screen.blit(space2start,(260,500))
       if keys[pygame.K_SPACE]:
             status = "game"
 
     if status == "game":
-        screen.fill((0,100,0))
+        screen.fill((0,50,0))
 
         #renders sprites
         screen.blit(lakesprite,(lx,ly))
