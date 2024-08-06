@@ -27,8 +27,8 @@ keys = pygame.key.get_pressed()
 
 #assets
 playersprite = pygame.image.load("Assets/Player.png")
-enemysprite1 = pygame.image.load("Assets/Enemy 1.png")
-enemysprite2 = pygame.image.load("Assets/Enemy 2.png")
+enemysprite1 = pygame.image.load("Assets/BF-109.png")
+enemysprite2 = pygame.image.load("Assets/Avro Lancaster.png")
 enemysprite3 = pygame.image.load("Assets/Enemy 3.png")
 cloudsprite1 = pygame.image.load("Assets/Cloud 1.png")
 cloudsprite2 = pygame.image.load("Assets/Cloud 2.png")
