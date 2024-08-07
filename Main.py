@@ -78,7 +78,7 @@ while run:
       screen.blit(gamelogo,(113,10))
       start = screen.blit(startsprite,(260,500))
       if keys[pygame.K_SPACE]:
-            status = "game"
+            page = "game"
     
     if page == "game":
         screen.fill((0,50,0))
@@ -166,15 +166,15 @@ while run:
 
         #collision
         if pygame.Rect.colliderect(player,enemy1):
-           status = "menu"
+           page = "menu"
         if pygame.Rect.colliderect(player,enemy2):
-           status = "menu"
+           page = "menu"
         if pygame.Rect.colliderect(player,enemy3):
-           status = "menu"
+           page = "menu"
         if pygame.Rect.colliderect(player,enemy4):
-           status = "menu"
+           page = "menu"
         if pygame.Rect.colliderect(player,enemy5):
-           status = "menu"
+           page = "menu"
 
         #keybinds
         if keys[pygame.K_d]:
