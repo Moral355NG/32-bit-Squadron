@@ -57,6 +57,9 @@ pygame.display.set_icon(playersprite)
 pygame.display.set_caption("32bit Squadron") 
 
 while run:
+    #fps cap
+    pygame.time.Clock().tick(2500)
+    
     keys = pygame.key.get_pressed()
 
     if page == "menu":
