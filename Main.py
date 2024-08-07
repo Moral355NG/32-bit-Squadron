@@ -33,7 +33,7 @@ spvel = 1
 vel = 0.5
 screen = pygame.display.set_mode((x,y))
 run = True
-status = "menu"
+page = "menu"
 keys = pygame.key.get_pressed()
 
 #assets
@@ -59,7 +59,7 @@ pygame.display.set_caption("32bit Squadron")
 while run:
     keys = pygame.key.get_pressed()
 
-    if status == "menu":
+    if page == "menu":
       #resets variables
       px = x / 2 -50
       py = y - 100
@@ -80,7 +80,7 @@ while run:
       if keys[pygame.K_SPACE]:
             status = "game"
     
-    if status == "game":
+    if page == "game":
         screen.fill((0,50,0))
 
         #renders sprites
@@ -193,7 +193,7 @@ while run:
                 spvel = 1
                 vel = 0.5
             time.sleep(0.5)
-    
+
     #detects quit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
