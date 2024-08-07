@@ -1,4 +1,4 @@
-import pygame,random
+import pygame,random,time
 
 #values
 x = 720
@@ -25,9 +25,12 @@ ex4 = random.randint(0,640)
 ey4 = random.randint(-1000,0)
 ex5 = random.randint(0,640)
 ey5 = random.randint(-1000,0)
+bx = random.randint(0,640)
+by = random.randint(-1000,0)
 prx = random.randint(0,640)
 pry = random.randint(-1000,0)
-vel = 1
+spvel = 1
+vel = 0.5
 screen = pygame.display.set_mode((x,y))
 run = True
 status = "menu"
@@ -45,8 +48,9 @@ cloudsprite2 = pygame.image.load("Assets/Cloud 2.png")
 treesprite = pygame.image.load("Assets/Tree.png")
 lakesprite = pygame.image.load("Assets/Lake.png")
 parachutesprite = pygame.image.load("Assets/Parachute.png")
+basesprite = pygame.image.load("Assets/Base.png")
 gamelogo = pygame.image.load("Assets/32bit Squadron logo.png")
-space2start = pygame.image.load("Assets/Space to start.png")
+startsprite = pygame.image.load("Assets/Start.png")
 
 pygame.init()
 pygame.display.set_icon(playersprite)
@@ -72,10 +76,10 @@ while run:
       #renders menu
       screen.fill((0,0,0))
       screen.blit(gamelogo,(113,10))
-      screen.blit(space2start,(260,500))
+      start = screen.blit(startsprite,(260,500))
       if keys[pygame.K_SPACE]:
             status = "game"
-
+    
     if status == "game":
         screen.fill((0,50,0))
 
@@ -83,6 +87,7 @@ while run:
         screen.blit(lakesprite,(lx,ly))
         screen.blit(treesprite,(tx1,ty1))
         screen.blit(treesprite,(tx2,ty2))
+        screen.blit(basesprite,(bx,by))
         screen.blit(parachutesprite,(prx,pry))
         player = screen.blit(playersprite,(px,py))
         enemy1 = screen.blit(enemysprite1,(ex1,ey1))
@@ -125,6 +130,12 @@ while run:
             ly = random.randint(-1000,0)
         ly += vel
 
+        #Base movement
+        if by > 720:
+            bx = random.randint(0,640)
+            by = random.randint(-1000,0)
+        by += vel
+
         #parachute movement
         if pry > 720:
             prx = random.randint(0,640)
@@ -147,11 +158,11 @@ while run:
         if ey5 > 720:
             ex5 = random.randint(0,640)
             ey5 = random.randint(-1000,0)
-        ey1 += vel
-        ey2 += vel
-        ey3 += vel
-        ey4 += vel
-        ey5 += vel
+        ey1 += spvel
+        ey2 += spvel
+        ey3 += spvel
+        ey4 += spvel
+        ey5 += spvel
 
         #collision
         if pygame.Rect.colliderect(player,enemy1):
@@ -167,13 +178,21 @@ while run:
 
         #keybinds
         if keys[pygame.K_d]:
-          px += vel
+          px += spvel
         if keys[pygame.K_a]:
-          px -= vel
+          px -= spvel
         if keys[pygame.K_RIGHT]:
-          px += vel
+          px += spvel
         if keys[pygame.K_LEFT]:
-          px -= vel
+          px -= spvel
+        if keys[pygame.K_p]:
+            if spvel == 1:
+                spvel = 0
+                vel = 0
+            elif spvel == 0:
+                spvel = 1
+                vel = 0.5
+            time.sleep(0.5)
     
     #detects quit
     for event in pygame.event.get():
