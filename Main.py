@@ -57,7 +57,7 @@ pygame.display.set_icon(playersprite)
 pygame.display.set_caption("32bit Squadron") 
 
 while run:
-    pygame.time.Clock().tick(1500)
+    pygame.time.Clock().tick(5000)
 
     keys = pygame.key.get_pressed()
 
@@ -84,6 +84,9 @@ while run:
     
     if page == "game":
         screen.fill((0,50,0))
+
+        spvel = 1
+        vel = 0.5
 
         #renders sprites
         screen.blit(lakesprite,(lx,ly))
@@ -167,7 +170,7 @@ while run:
         ey5 += spvel
 
         #collision
-        if pygame.Rect.colliderect(player,enemy1):
+        if pygame.Rect.colliderect(player,(enemy1)):
            page = "menu"
         if pygame.Rect.colliderect(player,enemy2):
            page = "menu"
@@ -200,7 +203,6 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
           run = False
-
     pygame.display.update()
     
 pygame.quit()
