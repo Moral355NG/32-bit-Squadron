@@ -7,3 +7,6 @@ A game we made in our free time just for fun.
 Moral355NG
 ### Artist
 Joquicx
+
+### Musician
+Montecarlo968
