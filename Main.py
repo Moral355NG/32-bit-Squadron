@@ -31,7 +31,7 @@ prx = random.randint(0,640)
 pry = random.randint(-1000,0)
 
 #values
-spvel = 4
+spvel = 3
 vel = 1
 screen = pygame.display.set_mode((x,y))
 run = True
