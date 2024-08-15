@@ -10,3 +10,6 @@ Joquicx
 
 ### Musician
 Montecarlo968
+
+### Narrator
+Flameblade
