@@ -9,6 +9,8 @@ cx1 = random.randint(0,640)
 cy1 = random.randint(-1000,0)
 cx2 = random.randint(0,640)
 cy2 = random.randint(-1000,0)
+cx3 = random.randint(0,640)
+cy3 = random.randint(-1000,0)
 tx1 = random.randint(0,640)
 ty1 = random.randint(-1000,0)
 tx2 = random.randint(0,640)
@@ -40,7 +42,7 @@ clock = pygame.time.Clock()
 keys = pygame.key.get_pressed()
 
 pygame.init()
-pygame.display.set_icon(pygame.image.load("Assets/Player.png"))
+pygame.display.set_icon(pygame.image.load("Assets/Icon.ico"))
 pygame.display.set_caption("32-bit Squadron") 
 
 while run:
@@ -109,6 +111,7 @@ while run:
         enemy5 = screen.blit(pygame.image.load("Assets/Tomcat.png"),(ex5,ey5))
         screen.blit(pygame.image.load("Assets/Cloud 1.png"),(cx1,cy1))
         screen.blit(pygame.image.load("Assets/Cloud 2.png"),(cx2,cy2))
+        screen.blit(pygame.image.load("Assets/Cloud 3.png"),(cx3,cy3))
 
         #player movement
         keys = pygame.key.get_pressed()
@@ -143,7 +146,12 @@ while run:
            cx2 = random.randint(0,640)
            cy2 = random.randint(-1000,0)
         else:
-           cy1 += vel
+           cy2 += vel
+        if cy3 > 720:
+           cx3 = random.randint(0,640)
+           cy3 = random.randint(-1000,0)
+        else:
+           cy3 += vel
 
         #tree movement
         if ty1 > 720:
