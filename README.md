@@ -1,5 +1,5 @@
 # 32bit Squadron
-v0.1.0-Alpha
+v0.1.1-Alpha
 ## About this project
 A game where you dodge enemy aircraft over a randomly generated landscape.
 ## Gallery
