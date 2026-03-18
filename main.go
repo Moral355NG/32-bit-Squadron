@@ -32,15 +32,15 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	var width, height = ebiten.WindowSize()
+	scaling := (float64(width) + float64(height)) / (1280 + 720)
 
 	player_op := &ebiten.DrawImageOptions{}
-	player_op.GeoM.Translate(float64(width)/2, float64(height)-128)
-	player_op.GeoM.Scale(1*scaling, 1*scaling)
+	player_op.GeoM.Translate(float64(width)/2-96, float64(height)-128)
+	player_op.GeoM.Scale(1, 1)
 	enemy_op := &ebiten.DrawImageOptions{}
 	enemy_op.GeoM.Translate(200, 200)
 	enemy_op.GeoM.Scale(1*scaling, 1*scaling)
 
-	// equations for player poition px = x / 2 - 50 * scaling py = y - 100 * scaling
 	screen.Fill(color.RGBA{0, 50, 0, 255})
 	ebitenutil.DebugPrint(screen, "v1.1.0-Alpha1")
 	screen.DrawImage(enemies, enemy_op)
