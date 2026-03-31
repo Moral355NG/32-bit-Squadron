@@ -1,6 +1,7 @@
 package main
 
 import (
+	"image"
 	"image/color"
 	_ "image/png"
 	"log"
@@ -35,19 +36,20 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	var width, height int = ebiten.WindowSize()
-	Scaling := (float64(width) + float64(height)) / (1280 + 720)
+	// use when scaling is implemented Scaling := (float64(width) + float64(height)) / (1280 + 720)
 
 	player_op := &ebiten.DrawImageOptions{}
-	player_op.GeoM.Translate(float64(width)/2-96, float64(height)-128)
+	player_op.GeoM.Translate(float64(width)/2-32, float64(height)-64)
 	player_op.GeoM.Scale(1, 1)
 	enemy_op := &ebiten.DrawImageOptions{}
 	enemy_op.GeoM.Translate(200, 200)
-	enemy_op.GeoM.Scale(1*Scaling, 1*Scaling)
+	enemy_op.GeoM.Scale(1, 1)
 
 	screen.Fill(color.RGBA{0, 50, 0, 255})
 	ebitenutil.DebugPrint(screen, "v1.1.0-Alpha1")
 	screen.DrawImage(enemies, enemy_op)
-	screen.DrawImage(player, player_op)
+	// formatting for image.Rect(x, y, x+width, y+height) x, and y are positions on the sprite sheet
+	screen.DrawImage(player.SubImage(image.Rect(64, 0, 64+64, 0+64)).(*ebiten.Image), player_op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -55,7 +57,8 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func main() {
-	ebiten.SetWindowSize(monitorWidth/2, monitorHeight/2)
+	// add when scaling is implemented ebiten.SetWindowSize(monitorWidth/2, monitorHeight/2)
+	ebiten.SetWindowSize(1280, 720)
 	ebiten.SetWindowTitle("32-bit Squadron")
 	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeEnabled)
 	// main game loop
