@@ -1,5 +1,5 @@
 ## WIP: 32-bit Squadron v1.1.GO
-The entire game will be recoded in the Go programming language for better performance; along with adding new features such as animations, support for sprite sheets, audio and light modding, etc.
+The entire game will be recoded in the Go programming language for better performance; along with adding new features such as animations, support for sprite sheets, audio, etc.
 
 ## Credits
 - ### Developers
