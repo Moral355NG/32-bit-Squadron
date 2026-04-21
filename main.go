@@ -37,7 +37,7 @@ type Game struct{}
 
 func (g *Game) Update() error {
 	playerMovement()
-	playerAnim()
+	playerAnimate()
 	return nil
 }
 
