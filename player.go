@@ -20,7 +20,7 @@ func playerMovement() {
 	}
 }
 
-func playerAnim() {
+func playerAnimate() {
 	switch playerAnimation {
 	case -1: // Left
 		playerSheetX, playerSheetY = 0, 0
