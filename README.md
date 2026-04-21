@@ -1,5 +1,5 @@
-## 32-bit Squadron 1.0.1
-The legacy Python version of 32-bit Squadron
+## The legacy Python version of 32-bit Squadron
+This branch is an archive of an older version of 32-bit Squadron and will no longer be supported.
 
 ## Credits
 - ### Developers
