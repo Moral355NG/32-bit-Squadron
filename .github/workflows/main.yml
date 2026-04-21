@@ -1,0 +1,84 @@
+# Copyright (c) ABN 73 974 839 225
+# All Rights Reserved.
+#
+# Licensed to Moral355NG on GitHub under the conditions of use on Moral355NG/32-bit-Squadron;
+# NOT TO BE REPRODUCED WITHOUT PERMISSION dandilly.com.au
+
+name: Compile GO
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false 
+      
+      matrix:
+        include:
+          - os: ubuntu-latest
+            goos: linux
+            goarch: amd64
+          
+          - os: macos-latest
+            goos: darwin
+            goarch: amd64
+
+          - os: macos-latest
+            goos: darwin
+            goarch: arm64
+            
+          - os: windows-latest
+            goos: windows
+            goarch: amd64
+
+    runs-on: ${{ matrix.os }}
+    
+    
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      BINARY_NAME: 32-bit-squadron
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 'stable'
+
+    - name: Install Linux Dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          pkg-config \
+          xorg-dev \
+          libgl1-mesa-dev \
+          libxcursor-dev \
+          libxinerama-dev \
+          libxrandr-dev \
+          libxi-dev \
+          libasound2-dev \
+          mesa-common-dev
+
+    - name: Build Binary
+      env:
+        GOOS: ${{ matrix.goos }}
+        GOARCH: ${{ matrix.goarch }}
+        CGO_ENABLED: 1
+      shell: bash
+      run: |
+        EXT=""
+        if [ "$GOOS" = "windows" ]; then
+          EXT=".exe"
+        fi
+        # Build the specific binary name
+        go build -v -o "${{ env.BINARY_NAME }}-${{ matrix.goos }}-${{ matrix.goarch }}$EXT" .
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.BINARY_NAME }}-${{ matrix.goos }}-${{ matrix.goarch }}
+        path: ${{ env.BINARY_NAME }}-${{ matrix.goos }}-${{ matrix.goarch }}*
