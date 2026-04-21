@@ -1,5 +1,5 @@
 ## The legacy Python version of 32-bit Squadron
-This branch is an archive of an older version of 32-bit Squadron and will no longer be supported.
+This branch is an archive of an older version of 32-bit Squadron and will recieve little to no updates.
 
 ## Credits
 - ### Developers
