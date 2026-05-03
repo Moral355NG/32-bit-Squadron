@@ -11,23 +11,25 @@ import (
 )
 
 var (
-	Scaling        float64
-	velocity       float64
-	monitorWidth   int
-	monitorHeight  int
-	icon           *ebiten.Image
-	player         *ebiten.Image
-	playerPosition float64
-	enemies        *ebiten.Image
+	scaling       float64
+	velocity      float64
+	width         int
+	height        int
+	monitorWidth  int
+	monitorHeight int
+	icon          *ebiten.Image
+	player        *ebiten.Image
+	enemies       *ebiten.Image
 )
 
 func init() {
 	var err error
+	width, height = 1280, 720
 	monitorWidth, monitorHeight = ebiten.Monitor().Size()
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/player.png")
-	playerPosition = (1280 / 2) - 32
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/enemies.png")
+	playerInit()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,18 +38,20 @@ func init() {
 type Game struct{}
 
 func (g *Game) Update() error {
+	width, height = ebiten.WindowSize()
 	playerMovement()
-	playerAnimate()
+	playerAnimation()
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	var width, height int = ebiten.WindowSize()
-	// use when scaling is implemented Scaling := (float64(width) + float64(height)) / (1280 + 720)
+	scaling = (float64(width) + float64(height)) / (1280 + 720)
+	transform := float64(width) / 1280
 
 	player_op := &ebiten.DrawImageOptions{}
-	player_op.GeoM.Translate(playerPosition, float64(height)-64)
-	player_op.GeoM.Scale(1, 1)
+	player_op.GeoM.Translate(-playerWidth/2, -PlayerHeight)
+	player_op.GeoM.Scale(1*scaling, 1*scaling)
+	player_op.GeoM.Translate(playerPosition*transform, float64(height))
 	enemy_op := &ebiten.DrawImageOptions{}
 	enemy_op.GeoM.Translate(200, 200)
 	enemy_op.GeoM.Scale(float64(width), 1)
