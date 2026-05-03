@@ -2,8 +2,7 @@
 The entire game will be recoded in the Go programming language for better performance; along with adding new features such as animations, support for sprite sheets, audio, etc.
 
 ## Credits
-- **Joquicx:** Animation, Artwork
-- **Moral355NG:** Animation, Programming, Readme
+- **Ebitengine (https://ebitengine.org/) (Apache License 2.0):** An open source 2D game engine for GO.
 
 ## Licenses
 This project uses two separate licenses:
