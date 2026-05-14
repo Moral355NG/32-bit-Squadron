@@ -1,4 +1,3 @@
-
 // Copyright (C) 2026 Moral355NG
 // GPL-3.0-or-later
 
@@ -26,16 +25,21 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
+const (
+	frames = 2
+)
+
 var (
-	scaling       float64
-	velocity      float64
-	width         int
-	height        int
-	monitorWidth  int
-	monitorHeight int
-	icon          *ebiten.Image
-	player        *ebiten.Image
-	enemies       *ebiten.Image
+	scaling        float64
+	velocity       float64
+	width          int
+	height         int
+	monitorWidth   int
+	monitorHeight  int
+	animationIndex int
+	icon           *ebiten.Image
+	player         *ebiten.Image
+	enemies        *ebiten.Image
 )
 
 func init() {
@@ -57,6 +61,7 @@ type Game struct {
 
 func (g *Game) Update() error {
 	g.tick++
+	animationIndex = (g.tick / 5) % frames
 	width, height = ebiten.WindowSize()
 	playerMovement()
 	playerAnimation()
@@ -64,7 +69,6 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	frameIndex := 
 	scaling = (float64(width) + float64(height)) / (1280 + 720)
 	transform := float64(width) / 1280
 
