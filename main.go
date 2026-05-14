@@ -1,3 +1,18 @@
+// Copyright (C) 2026 Moral355NG
+// GPL-3.0-or-later
+
+// 32-bit-Squadron is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// 32-bit-Squadron is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// See <https://www.gnu.org/licenses/> for more details.
+
 package main
 
 import (
@@ -35,9 +50,12 @@ func init() {
 	}
 }
 
-type Game struct{}
+type Game struct {
+	tick int
+}
 
 func (g *Game) Update() error {
+	g.tick++
 	width, height = ebiten.WindowSize()
 	playerMovement()
 	playerAnimation()
@@ -45,6 +63,7 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	frameIndex := 
 	scaling = (float64(width) + float64(height)) / (1280 + 720)
 	transform := float64(width) / 1280
 
@@ -57,7 +76,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	enemy_op.GeoM.Scale(float64(width), 1)
 
 	screen.Fill(color.RGBA{0, 50, 0, 255})
-	ebitenutil.DebugPrint(screen, "v1.1.0-Alpha1")
+	ebitenutil.DebugPrint(screen, "v1.1.0-alpha.1")
 	screen.DrawImage(enemies, enemy_op)
 	// formatting for subimage process(x, y, x + width, y + height)
 	screen.DrawImage(player.SubImage(image.Rect(playerSheetX, playerSheetY, playerSheetX+64, playerSheetY+64)).(*ebiten.Image), player_op)
