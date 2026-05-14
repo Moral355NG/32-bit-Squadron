@@ -2,6 +2,13 @@
 The entire game will be recoded in the Go programming language for better performance; along with adding new features such as animations, support for sprite sheets, audio, etc.
 
 ## Credits
+- **Artwork:**
+  - **Joquicx** (Original Sprites)
+  - **Moral355NG** (Additional Sprites, Animation, UI, Intergration)
+- Programming:
+  - **Moral355NG**
+
+## Third-party Libraries
 - **Ebitengine (Apache License 2.0):** https://ebitengine.org/
 
 ## Licenses
