@@ -1,4 +1,3 @@
-
 // Copyright (C) 2026 Moral355NG
 // GPL-3.0-or-later
 
@@ -47,12 +46,12 @@ func playerMovement() {
 func playerAnimation() {
 	switch playerState {
 	case -1: // Left
-		playerSheetX, playerSheetY = 0, 0
+		playerSheetX, playerSheetY = 0, animationIndex*64
 	case 0: // Centre
-		playerSheetX, playerSheetY = 64, 0
+		playerSheetX, playerSheetY = 64, animationIndex*64
 	case 1: // Right
-		playerSheetX, playerSheetY = 128, 0
+		playerSheetX, playerSheetY = 128, animationIndex*64
 	default: // Fallback to Centre
-		playerSheetX, playerSheetY = 64, 0
+		playerSheetX, playerSheetY = 64, animationIndex*64
 	}
 }
