@@ -17,41 +17,36 @@ package main
 
 import "github.com/hajimehoshi/ebiten/v2"
 
+const (
+	playerWidth  float64 = 64
+	playerHeight float64 = 64
+	left         int     = 0
+	centre       int     = 1
+	right        int     = 2
+)
+
 var (
 	playerSheetX   int
 	playerSheetY   int
 	playerState    int
-	playerWidth    float64
-	PlayerHeight   float64
 	playerPosition float64
 )
 
 func playerInit() {
 	playerPosition = 1280 / 2
-	playerWidth, PlayerHeight = 64, 64
 }
 
-func playerMovement() {
+func updatePlayer() {
+	// player movement and state
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && playerPosition > 0+playerWidth/2 {
 		playerPosition -= 10
-		playerState = -1
+		playerState = left
 	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && playerPosition < 1280-playerWidth/2 {
 		playerPosition += 10
-		playerState = 1
+		playerState = right
 	} else {
-		playerState = 0
+		playerState = centre
 	}
-}
-
-func playerAnimation() {
-	switch playerState {
-	case -1: // Left
-		playerSheetX, playerSheetY = 0, animationIndex*64
-	case 0: // Centre
-		playerSheetX, playerSheetY = 64, animationIndex*64
-	case 1: // Right
-		playerSheetX, playerSheetY = 128, animationIndex*64
-	default: // Fallback to Centre
-		playerSheetX, playerSheetY = 64, animationIndex*64
-	}
+	// player animation
+	playerSheetX, playerSheetY = int(playerWidth)*playerState, animationIndex*int(playerHeight)
 }
