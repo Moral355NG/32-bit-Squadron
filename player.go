@@ -39,10 +39,10 @@ func playerInit() {
 func updatePlayer() {
 	// player movement and state
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && playerPosition > 0+playerWidth/2 {
-		playerPosition -= 10
+		playerPosition -= velocity
 		playerState = left
 	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && playerPosition < 1280-playerWidth/2 {
-		playerPosition += 10
+		playerPosition += velocity
 		playerState = right
 	} else {
 		playerState = centre
