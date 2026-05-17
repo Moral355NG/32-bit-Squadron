@@ -3,9 +3,9 @@ The entire game will be recoded in the Go programming language for better perfor
 
 ## Credits
 - **Artwork:**
-  - **Joquicx**
-- Programming:
-  - **Moral355NG**
+  - Joquicx
+- **Programming:**
+  - Moral355NG
 
 ## Third-party Libraries
 - **Ebitengine (Apache License 2.0):** https://ebitengine.org/
