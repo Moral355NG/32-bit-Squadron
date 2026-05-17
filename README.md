@@ -3,8 +3,7 @@ This branch is an archive of an older version of 32-bit Squadron and will reciev
 
 ## Credits
 - **Artwork:**
-  - **Joquicx** (Original Sprites)
-  - **Moral355NG** (Additional Sprites, Animation, UI, Intergration)
+  - **Joquicx**
 - Programming:
   - **Moral355NG**
 
