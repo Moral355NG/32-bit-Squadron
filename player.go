@@ -18,11 +18,9 @@ package main
 import "github.com/hajimehoshi/ebiten/v2"
 
 const (
-	playerWidth  float64 = 64
-	playerHeight float64 = 64
-	left         int     = 0
-	centre       int     = 1
-	right        int     = 2
+	left   int = 0
+	centre int = 1
+	right  int = 2
 )
 
 var (
@@ -32,21 +30,32 @@ var (
 	playerPosition float64
 )
 
-func playerInit() {
-	playerPosition = 1280 / 2
+type Player struct {
+	x, y   float64
+	sheetX int
+	sheetY int
+	width  float64
+	height float64
+	vel    float64
+	state  int
 }
 
-func updatePlayer() {
+func (p *Player) init() {
+	p.x = 1280 / 2
+	p.vel = 10
+}
+
+func (p *Player) update() {
 	// player movement and state
-	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && playerPosition > 0+playerWidth/2 {
-		playerPosition -= velocity
-		playerState = left
-	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && playerPosition < 1280-playerWidth/2 {
-		playerPosition += velocity
-		playerState = right
+	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.x > 0+spriteWidth/2 {
+		p.x -= p.vel
+		p.state = left
+	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.x < 1280-spriteWidth/2 {
+		p.x += p.vel
+		p.state = right
 	} else {
-		playerState = centre
+		p.state = centre
 	}
 	// player animation
-	playerSheetX, playerSheetY = int(playerWidth)*playerState, animationIndex*int(playerHeight)
+	p.sheetX, p.sheetY = int(spriteWidth)*p.state, animationIndex*int(spriteHeight)
 }
