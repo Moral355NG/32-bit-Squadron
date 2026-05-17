@@ -26,8 +26,10 @@ import (
 )
 
 const (
-	velocity   float64 = 10
-	frameCount int     = 2
+	spriteWidth  float64 = 64
+	spriteHeight float64 = 64
+	velocity     float64 = 10
+	frameCount   int     = 2
 )
 
 var (
@@ -40,6 +42,7 @@ var (
 	icon           *ebiten.Image
 	player         *ebiten.Image
 	enemies        *ebiten.Image
+	p              *Player
 )
 
 func init() {
@@ -49,7 +52,8 @@ func init() {
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/player.png")
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/enemies.png")
-	playerInit()
+	p = &Player{}
+	p.init()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -63,7 +67,7 @@ func (g *Game) Update() error {
 	g.tick++
 	animationIndex = (g.tick / 5) % frameCount
 	width, height = ebiten.WindowSize()
-	updatePlayer()
+	p.update()
 	return nil
 }
 
@@ -72,9 +76,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	transform := float64(width) / 1280
 
 	player_op := &ebiten.DrawImageOptions{}
-	player_op.GeoM.Translate(-playerWidth/2, -playerHeight)
+	player_op.GeoM.Translate(-spriteWidth/2, -spriteHeight)
 	player_op.GeoM.Scale(1*scaling, 1*scaling)
-	player_op.GeoM.Translate(playerPosition*transform, float64(height))
+	player_op.GeoM.Translate(p.x*transform, float64(height))
 	enemy_op := &ebiten.DrawImageOptions{}
 	enemy_op.GeoM.Translate(200, 200)
 	enemy_op.GeoM.Scale(float64(width), 1)
@@ -83,7 +87,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	ebitenutil.DebugPrint(screen, "v1.1.0-alpha.1")
 	screen.DrawImage(enemies, enemy_op)
 	// formatting for subimage process(x, y, x + width, y + height)
-	screen.DrawImage(player.SubImage(image.Rect(playerSheetX, playerSheetY, playerSheetX+64, playerSheetY+64)).(*ebiten.Image), player_op)
+	screen.DrawImage(player.SubImage(image.Rect(p.sheetX, p.sheetY, p.sheetX+int(spriteWidth), p.sheetY+int(spriteHeight))).(*ebiten.Image), player_op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
