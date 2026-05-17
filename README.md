@@ -3,8 +3,7 @@ The entire game will be recoded in the Go programming language for better perfor
 
 ## Credits
 - **Artwork:**
-  - **Joquicx** (Original Sprites)
-  - **Moral355NG** (Additional Sprites, Animation, UI, Intergration)
+  - **Joquicx**
 - Programming:
   - **Moral355NG**
 
