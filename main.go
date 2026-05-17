@@ -33,6 +33,7 @@ const (
 )
 
 var (
+	transform      float64
 	scaling        float64
 	width          int
 	height         int
@@ -49,6 +50,7 @@ func init() {
 	var err error
 	monitorWidth, monitorHeight = ebiten.Monitor().Size()
 	width, height = monitorWidth/3*2, monitorHeight/3*2
+	// Load Images
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/player.png")
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/enemies.png")
@@ -73,12 +75,8 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	scaling = (float64(width) + float64(height)) / (1280 + 720)
-	transform := float64(width) / 1280
+	transform = float64(width) / 1280
 
-	player_op := &ebiten.DrawImageOptions{}
-	player_op.GeoM.Translate(-spriteWidth/2, -spriteHeight)
-	player_op.GeoM.Scale(1*scaling, 1*scaling)
-	player_op.GeoM.Translate(p.x*transform, float64(height))
 	enemy_op := &ebiten.DrawImageOptions{}
 	enemy_op.GeoM.Translate(200, 200)
 	enemy_op.GeoM.Scale(float64(width), 1)
@@ -86,8 +84,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{0, 50, 0, 255})
 	ebitenutil.DebugPrint(screen, "v1.1.0-alpha.1")
 	screen.DrawImage(enemies, enemy_op)
-	// formatting for subimage process(x, y, x + width, y + height)
-	screen.DrawImage(player.SubImage(image.Rect(p.sheetX, p.sheetY, p.sheetX+int(spriteWidth), p.sheetY+int(spriteHeight))).(*ebiten.Image), player_op)
+	p.draw(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
