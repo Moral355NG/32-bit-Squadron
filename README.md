@@ -3,9 +3,9 @@ This branch is an archive of an older version of 32-bit Squadron and will reciev
 
 ## Credits
 - **Artwork:**
-  - **Joquicx**
-- Programming:
-  - **Moral355NG**
+  - Joquicx
+- **Programming:**
+  - Moral355NG
 
 ## Third-party Libraries
 - **Pygame-CE (GNU LGPL-2.1):** https://pyga.me/
