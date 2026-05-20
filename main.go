@@ -35,6 +35,7 @@ const (
 var (
 	transform      float64
 	scaling        float64
+	multiplier     float64
 	width          int
 	height         int
 	monitorWidth   int
@@ -44,6 +45,7 @@ var (
 	player         *ebiten.Image
 	enemies        *ebiten.Image
 	p              *Player
+	e              *Enemy
 )
 
 func init() {
@@ -56,6 +58,8 @@ func init() {
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/enemies.png")
 	p = &Player{}
 	p.init()
+	e = &Enemy{}
+	e.init()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -70,21 +74,18 @@ func (g *Game) Update() error {
 	animationIndex = (g.tick / 5) % frameCount
 	width, height = ebiten.WindowSize()
 	p.update()
+	e.update()
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	scaling = (float64(width) + float64(height)) / (1280 + 720)
+	scaling = float64(height) / 720
 	transform = float64(width) / 1280
-
-	enemy_op := &ebiten.DrawImageOptions{}
-	enemy_op.GeoM.Translate(200, 200)
-	enemy_op.GeoM.Scale(float64(width), 1)
 
 	screen.Fill(color.RGBA{0, 50, 0, 255})
 	ebitenutil.DebugPrint(screen, "v1.1.0-alpha.1")
-	screen.DrawImage(enemies, enemy_op)
 	p.draw(screen)
+	e.draw(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
