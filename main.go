@@ -20,6 +20,7 @@ import (
 	"image/color"
 	_ "image/png"
 	"log"
+	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -66,15 +67,47 @@ func init() {
 }
 
 type Game struct {
-	tick int
+	op          *ebiten.DrawImageOptions
+	tick        int
+	enemies     Enemies
+	initialised bool
+}
+
+func (g *Game) Init() {
+	defer func() {
+		g.initialised = true
+	}()
+
+	g.op = &ebiten.DrawImageOptions{}
+
+	g.enemies.enemies = make([]*Enemy, 100)
+	g.enemies.count = 10
+
+	for i := range g.enemies.enemies {
+		x := float64(rand.Intn(1280))
+		y := float64(rand.Intn(32))
+		width := 64.0
+		height := 64.0
+		vel := 10.0
+		g.enemies.enemies[i] = &Enemy{
+			x:      x,
+			y:      y,
+			width:  width,
+			height: height,
+			vel:    vel,
+		}
+	}
 }
 
 func (g *Game) Update() error {
+	if !g.initialised {
+		g.Init()
+	}
 	g.tick++
 	animationIndex = (g.tick / 5) % frameCount
 	width, height = ebiten.WindowSize()
 	p.update()
-	e.update()
+	g.enemies.Update()
 	return nil
 }
 
@@ -85,7 +118,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{0, 50, 0, 255})
 	ebitenutil.DebugPrint(screen, "v1.1.0-alpha.1")
 	p.draw(screen)
-	e.draw(screen)
+	// draw enemies
+	for i := 0; i < g.enemies.count; i++ {
+		s := g.enemies.enemies[i]
+		g.op.GeoM.Reset()
+		g.op.GeoM.Translate(-s.width/2, -s.height)
+		g.op.GeoM.Scale(1*scaling, 1*scaling)
+		g.op.GeoM.Translate(s.x*transform, s.y)
+		screen.DrawImage(enemies.SubImage(image.Rect(s.sheetX, s.sheetY, s.sheetX+int(spriteWidth), s.sheetY+int(spriteHeight))).(*ebiten.Image), g.op)
+	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
