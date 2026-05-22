@@ -16,13 +16,12 @@
 package main
 
 import (
-	"image"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-const ()
+var g *Game
 
 // WIP ADD COLLISIONS AND MULTIPLE ENEMY SPAWNING LATER
 type Enemy struct {
@@ -45,7 +44,7 @@ func (e *Enemy) init() {
 	e.vel = 10
 }
 
-func (e *Enemy) update() {
+func (e *Enemy) Update() {
 	// enemy movement
 	if e.y > float64(height*2) {
 		e.x = float64(rand.Intn(1280))
@@ -58,12 +57,13 @@ func (e *Enemy) update() {
 	e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
 }
 
-func (e *Enemy) draw(screen *ebiten.Image) {
-	e.op = &ebiten.DrawImageOptions{}
-	// define player position and size on screen
-	e.op.GeoM.Translate(-e.width/2, -e.height)
-	e.op.GeoM.Scale(1*scaling, 1*scaling)
-	e.op.GeoM.Translate(e.x*transform, e.y)
-	// formatting for subimage process(x, y, x + width, y + height)
-	screen.DrawImage(enemies.SubImage(image.Rect(e.sheetX, e.sheetY, e.sheetX+int(spriteWidth), e.sheetY+int(spriteHeight))).(*ebiten.Image), e.op)
+type Enemies struct {
+	enemies []*Enemy
+	count   int
+}
+
+func (e *Enemies) Update() {
+	for i := 0; i < e.count; i++ {
+		e.enemies[i].Update()
+	}
 }
