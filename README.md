@@ -8,7 +8,7 @@ The entire game will be recoded in the Go programming language for better perfor
   - Moral355NG
 
 ## Third-party Libraries
-- **Ebitengine (Apache License 2.0):** https://ebitengine.org/
+- **Ebitengine (Apache License 2.0):** https://github.com/hajimehoshi/ebiten
 
 ## Licenses
 This project uses two separate licenses:
