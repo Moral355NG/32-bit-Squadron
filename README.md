@@ -10,8 +10,3 @@ The entire game will be recoded in the Go programming language for better perfor
 ## Libraries
 - **Ebitengine (Apache License 2.0):** https://github.com/hajimehoshi/ebiten
 - **Ebiten-Collisions (MIT License):** https://github.com/tducasse/ebiten-collisions
-
-## Licenses
-This project uses two separate licenses:
-- **Source code:** GNU General Public License v3.0 (https://www.gnu.org/licenses/gpl-3.0.html)
-- **Assets:** Creative Commons Attribution-NonCommercial 4.0 International (https://creativecommons.org/licenses/by-nc/4.0/deed.en)
