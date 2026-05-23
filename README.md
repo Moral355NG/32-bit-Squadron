@@ -8,7 +8,7 @@ This branch is an archive of an older version of 32-bit Squadron and will reciev
   - Moral355NG
 
 ## Third-party Libraries
-- **Pygame-CE (GNU LGPL-2.1):** https://pyga.me/
+- **Pygame-CE (GNU LGPL-2.1):** https://github.com/pygame-community/pygame-ce
 
 ## Licenses
 This project uses two separate licenses:
