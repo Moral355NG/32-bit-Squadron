@@ -39,14 +39,16 @@ type Player struct {
 	op     *ebiten.DrawImageOptions
 }
 
-func (p *Player) init() {
+func (p *Player) Init() {
 	p.x = 1280 / 2
+	p.y = float64(height)
 	p.width = 64
 	p.height = 64
 	p.vel = 10
 }
 
-func (p *Player) update() {
+func (p *Player) Update() {
+	p.y = float64(height)
 	// player movement and state
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.x > 0+p.width/2 {
 		p.x -= p.vel
@@ -67,12 +69,6 @@ func (p *Player) update() {
 	p.sheetX, p.sheetY = int(spriteWidth)*p.state, animationIndex*int(spriteHeight)
 }
 
-func (p *Player) draw(screen *ebiten.Image) {
-	p.op = &ebiten.DrawImageOptions{}
-	// define player position and size on screen
-	p.op.GeoM.Translate(-p.width/2, -p.height)
-	p.op.GeoM.Scale(1*scaling, 1*scaling)
-	p.op.GeoM.Translate(p.x*transform, float64(height))
-	// formatting for subimage process(x, y, x + width, y + height)
-	screen.DrawImage(player.SubImage(image.Rect(p.sheetX, p.sheetY, p.sheetX+int(spriteWidth), p.sheetY+int(spriteHeight))).(*ebiten.Image), p.op)
+func (p *Player) hitbox() image.Rectangle {
+	return image.Rect(int(p.x)-32, int(p.y)-32, int(p.x)+32, int(p.y)+32)
 }
