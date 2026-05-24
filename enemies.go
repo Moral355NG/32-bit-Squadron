@@ -16,6 +16,7 @@
 package main
 
 import (
+	"image"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -23,7 +24,13 @@ import (
 
 var g *Game
 
-// WIP ADD COLLISIONS AND MULTIPLE ENEMY SPAWNING LATER
+func collide(a image.Rectangle, b image.Rectangle) bool {
+	return a.Min.X < b.Max.X &&
+		a.Max.X > b.Min.X &&
+		a.Min.Y < b.Max.Y &&
+		a.Max.Y > b.Min.Y
+}
+
 type Enemy struct {
 	x, y   float64
 	sheetX int
@@ -36,25 +43,29 @@ type Enemy struct {
 	op     *ebiten.DrawImageOptions
 }
 
-func (e *Enemy) init() {
+func (e *Enemy) Reset() {
 	e.x = float64(rand.Intn(1280))
-	e.y = float64(rand.Intn(32))
-	e.width = 64
-	e.height = 64
-	e.vel = 10
+	e.y = 0 - float64(rand.Intn(height))
+	e.state = rand.Intn(5)
 }
 
 func (e *Enemy) Update() {
 	// enemy movement
 	if e.y > float64(height*2) {
-		e.x = float64(rand.Intn(1280))
-		e.y = float64(rand.Intn(32))
-		e.state = rand.Intn(5)
+		e.Reset()
 	} else {
 		e.y += e.vel * scaling
 	}
-	// enemy animation
+	// handle enemy animation
 	e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
+	// handle player enemy collision
+	if collide(p.hitbox(), e.hitbox()) {
+		g.Reset()
+	}
+}
+
+func (e *Enemy) hitbox() image.Rectangle {
+	return image.Rect(int(e.x)-32, int(e.y)-32, int(e.x)+32, int(e.y)+32)
 }
 
 type Enemies struct {
