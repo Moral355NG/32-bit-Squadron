@@ -23,7 +23,6 @@ import (
 )
 
 var g *Game
-var gameOver bool = false
 
 type Enemy struct {
 	x, y   float64
@@ -38,22 +37,8 @@ type Enemy struct {
 }
 
 func (e *Enemy) Update() {
-	// enemy movement
 	if gameOver == true {
-		e.x = float64(rand.Intn(1280))
-		e.y = 0 - float64(rand.Intn(height))
-		e.state = rand.Intn(5)
-		switch e.state {
-		case 1:
-			e.vel = 11
-		case 3:
-			e.vel = 16
-		case 4:
-			e.vel = 12
-		default:
-			e.vel = 10
-	}
-	} else if e.y > float64(height*2) {
+		// enemy spawning when game is not being played
 		e.x = float64(rand.Intn(1280))
 		e.y = 0 - float64(height) - float64(rand.Intn(height))
 		e.state = rand.Intn(5)
@@ -67,7 +52,23 @@ func (e *Enemy) Update() {
 		default:
 			e.vel = 10
 		}
+	} else if e.y > float64(height*2) {
+		// enemy spawning when game is being played
+		e.x = float64(rand.Intn(1280))
+		e.y = 0 - float64(rand.Intn(height))
+		e.state = rand.Intn(5)
+		switch e.state {
+		case 1:
+			e.vel = 11
+		case 3:
+			e.vel = 16
+		case 4:
+			e.vel = 12
+		default:
+			e.vel = 10
+		}
 	} else {
+		// move enemy down the screen
 		e.y += e.vel * scaling
 	}
 	// handle enemy animation
