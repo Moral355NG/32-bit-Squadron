@@ -89,7 +89,7 @@ func (g *Game) Init() {
 	g.op = &ebiten.DrawImageOptions{}
 
 	g.enemies.enemies = make([]*Enemy, 100)
-	g.enemies.count = 10
+	g.enemies.count = 16
 
 	for i := range g.enemies.enemies {
 		x := float64(rand.Intn(1280))
