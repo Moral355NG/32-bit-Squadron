@@ -23,6 +23,7 @@ import (
 )
 
 var g *Game
+var enemyOnScreen bool = true
 
 type Enemy struct {
 	x, y   float64
@@ -36,26 +37,36 @@ type Enemy struct {
 	op     *ebiten.DrawImageOptions
 }
 
-func (e *Enemy) Reset() {
-	e.x = float64(rand.Intn(1280))
-	e.y = 0 - float64(rand.Intn(height))
-	e.state = rand.Intn(5)
-	switch e.state {
-	case 1:
-		e.vel = 11
-	case 3:
-		e.vel = 16
-	case 4:
-		e.vel = 12
-	default:
-		e.vel = 10
-	}
-}
-
 func (e *Enemy) Update() {
 	// enemy movement
-	if e.y > float64(height*2) {
-		e.Reset()
+	if enemyOnScreen == false {
+		e.x = float64(rand.Intn(1280))
+		e.y = 0 - float64(rand.Intn(height))
+		e.state = rand.Intn(5)
+		switch e.state {
+		case 1:
+			e.vel = 11
+		case 3:
+			e.vel = 16
+		case 4:
+			e.vel = 12
+		default:
+			e.vel = 10
+	}
+	} else if e.y > float64(height*2) {
+		e.x = float64(rand.Intn(1280))
+		e.y = 0 - float64(height) - float64(rand.Intn(height))
+		e.state = rand.Intn(5)
+		switch e.state {
+		case 1:
+			e.vel = 11
+		case 3:
+			e.vel = 16
+		case 4:
+			e.vel = 12
+		default:
+			e.vel = 10
+		}
 	} else {
 		e.y += e.vel * scaling
 	}
@@ -63,6 +74,7 @@ func (e *Enemy) Update() {
 	e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
 	// handle player enemy collision
 	if collide(p.hitbox(), e.hitbox()) {
+		enemyOnScreen = false
 		g.Reset()
 	}
 }
