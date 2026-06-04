@@ -49,6 +49,7 @@ var (
 	enemies        *ebiten.Image
 	p              *Player
 	e              *Enemy
+	gameOver       bool
 )
 
 func init() {
@@ -59,6 +60,7 @@ func init() {
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/player.png")
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/enemies.png")
+	gameOver = true
 	p = &Player{}
 	p.Init()
 	e = &Enemy{}
@@ -89,7 +91,7 @@ func (g *Game) Init() {
 	g.op = &ebiten.DrawImageOptions{}
 
 	g.enemies.enemies = make([]*Enemy, 100)
-	g.enemies.count = 16
+	g.enemies.count = 10
 
 	for i := range g.enemies.enemies {
 		x := float64(rand.Intn(1280))
