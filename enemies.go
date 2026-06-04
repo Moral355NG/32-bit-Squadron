@@ -23,7 +23,7 @@ import (
 )
 
 var g *Game
-var enemyOnScreen bool = true
+var gameOver bool = false
 
 type Enemy struct {
 	x, y   float64
@@ -39,7 +39,7 @@ type Enemy struct {
 
 func (e *Enemy) Update() {
 	// enemy movement
-	if enemyOnScreen == false {
+	if gameOver == true {
 		e.x = float64(rand.Intn(1280))
 		e.y = 0 - float64(rand.Intn(height))
 		e.state = rand.Intn(5)
@@ -74,7 +74,7 @@ func (e *Enemy) Update() {
 	e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
 	// handle player enemy collision
 	if collide(p.hitbox(), e.hitbox()) {
-		enemyOnScreen = false
+		gameOver = true
 		g.Reset()
 	}
 }
