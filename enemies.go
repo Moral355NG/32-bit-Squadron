@@ -37,8 +37,9 @@ type Enemy struct {
 }
 
 func (e *Enemy) Update() {
-	if gameOver == true {
+	if scene != gameWorld {
 		// enemy spawning when game is not being played
+		points = 0
 		e.x = float64(rand.Intn(1280))
 		e.y = 0 - float64(height) - float64(rand.Intn(height))
 		e.state = rand.Intn(5)
@@ -54,6 +55,7 @@ func (e *Enemy) Update() {
 		}
 	} else if e.y > float64(height*2) {
 		// enemy spawning when game is being played
+		points += 1
 		e.x = float64(rand.Intn(1280))
 		e.y = 0 - float64(rand.Intn(height))
 		e.state = rand.Intn(5)
@@ -75,13 +77,13 @@ func (e *Enemy) Update() {
 	e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
 	// handle player enemy collision
 	if collide(p.hitbox(), e.hitbox()) {
-		gameOver = true
+		scene = gameOver
 		g.Reset()
 	}
 }
 
 func (e *Enemy) hitbox() image.Rectangle {
-	return image.Rect(int(e.x)-32, int(e.y)-32, int(e.x)+32, int(e.y)+32)
+	return image.Rect(int(e.x)-32, int(e.y)-24, int(e.x)+32, int(e.y)+24)
 }
 
 type Enemies struct {
