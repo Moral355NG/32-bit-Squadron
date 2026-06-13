@@ -52,8 +52,9 @@ func (p *Player) Update() {
 		p.state = centre
 	}
 	// player speed control
-	if ebiten.IsKeyPressed(ebiten.KeyShift) {
+	if scene == gameOver && ebiten.IsKeyPressed(ebiten.KeySpace) {
 		scene = gameWorld
+		points = 0
 	}
 	// player animation
 	p.sheetX, p.sheetY = int(spriteWidth)*p.state, animationIndex*int(spriteHeight)
