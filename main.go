@@ -16,6 +16,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	_ "image/png"
@@ -24,8 +25,6 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	// TO-DO: Add collisions
-	//"https://github.com/tducasse/ebiten-collisions"
 )
 
 const (
@@ -172,13 +171,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			g.op.GeoM.Scale(1*scaling, 1*scaling)
 			g.op.GeoM.Translate(e.x*transform, e.y)
 			screen.DrawImage(enemies.SubImage(image.Rect(e.sheetX, e.sheetY, e.sheetX+int(spriteWidth), e.sheetY+int(spriteHeight))).(*ebiten.Image), g.op)
+			ebitenutil.DebugPrint(screen, "32-bit Squadron v1.1.0.alpha.1 - In Game - "+fmt.Sprintf("Points: %d", points))
 		}
 	case gameOver:
 		screen.Fill(color.RGBA{0, 0, 0, 255})
+		ebitenutil.DebugPrint(screen, "32-bit Squadron v1.1.0.alpha.1 - Game Over (Press Space to Restart) - "+fmt.Sprintf("Points: %d", points))
 	default:
 		scene = gameWorld
 	}
-	ebitenutil.DebugPrint(screen, "32-bit Squadron, v1.1.0-alpha.1")
+
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
