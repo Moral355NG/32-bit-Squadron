@@ -39,7 +39,6 @@ type Enemy struct {
 func (e *Enemy) Update() {
 	if scene != gameWorld {
 		// enemy spawning when game is not being played
-		points = 0
 		e.x = float64(rand.Intn(1280))
 		e.y = 0 - float64(height) - float64(rand.Intn(height))
 		e.state = rand.Intn(5)
