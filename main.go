@@ -33,9 +33,14 @@ const (
 	spriteHeight float64 = 64
 	velocity     float64 = 10
 	frameCount   int     = 2
+	mainMenu     int     = 0
+	gameWorld    int     = 1
+	gameOver     int     = 2
 )
 
 var (
+	scene          int
+	points         int
 	transform      float64
 	scaling        float64
 	multiplier     float64
@@ -49,7 +54,6 @@ var (
 	enemies        *ebiten.Image
 	p              *Player
 	e              *Enemy
-	gameOver       bool
 )
 
 func init() {
@@ -60,9 +64,13 @@ func init() {
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/player.png")
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/enemies.png")
-	gameOver = true
+	scene = gameWorld
 	p = &Player{}
-	p.Init()
+	p.x = 1280 / 2
+	p.y = float64(height)
+	p.width = 64
+	p.height = 64
+	p.vel = 10
 	e = &Enemy{}
 	if err != nil {
 		log.Fatal(err)
@@ -78,9 +86,9 @@ type Game struct {
 
 func collide(a image.Rectangle, b image.Rectangle) bool {
 	return a.Min.X < b.Max.X &&
-		a.Max.X > b.Min.X &&
-		a.Min.Y < b.Max.Y &&
-		a.Max.Y > b.Min.Y
+		a.Max.X*int(scaling) > b.Min.X*int(scaling) &&
+		a.Min.Y*int(scaling) < b.Max.Y*int(scaling) &&
+		a.Max.Y*int(scaling) > b.Min.Y*int(scaling)
 }
 
 func (g *Game) Init() {
@@ -122,7 +130,12 @@ func (g *Game) Init() {
 }
 
 func (g *Game) Reset() {
-	p.Init()
+	// reset player position
+	p.x = 1280 / 2
+	p.y = float64(height)
+	p.width = 64
+	p.height = 64
+	p.vel = 10
 }
 
 func (g *Game) Update() error {
@@ -140,24 +153,32 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	scaling = float64(height) / 720
 	transform = float64(width) / 1280
-
-	screen.Fill(color.RGBA{0, 50, 0, 255})
-	ebitenutil.DebugPrint(screen, "v1.1.0-alpha.1")
-	p.op = &ebiten.DrawImageOptions{}
-	// draw player
-	p.op.GeoM.Translate(-p.width/2, -p.height)
-	p.op.GeoM.Scale(1*scaling, 1*scaling)
-	p.op.GeoM.Translate(p.x*transform, p.y)
-	screen.DrawImage(player.SubImage(image.Rect(p.sheetX, p.sheetY, p.sheetX+int(spriteWidth), p.sheetY+int(spriteHeight))).(*ebiten.Image), p.op)
-	// draw enemies
-	for i := 0; i < g.enemies.count; i++ {
-		e := g.enemies.enemies[i]
-		g.op.GeoM.Reset()
-		g.op.GeoM.Translate(-e.width/2, -e.height)
-		g.op.GeoM.Scale(1*scaling, 1*scaling)
-		g.op.GeoM.Translate(e.x*transform, e.y)
-		screen.DrawImage(enemies.SubImage(image.Rect(e.sheetX, e.sheetY, e.sheetX+int(spriteWidth), e.sheetY+int(spriteHeight))).(*ebiten.Image), g.op)
+	switch scene {
+	case mainMenu:
+		screen.Fill(color.RGBA{50, 50, 50, 255})
+	case gameWorld:
+		screen.Fill(color.RGBA{0, 50, 0, 255})
+		p.op = &ebiten.DrawImageOptions{}
+		// draw player
+		p.op.GeoM.Translate(-p.width/2, -p.height)
+		p.op.GeoM.Scale(1*scaling, 1*scaling)
+		p.op.GeoM.Translate(p.x*transform, p.y)
+		screen.DrawImage(player.SubImage(image.Rect(p.sheetX, p.sheetY, p.sheetX+int(spriteWidth), p.sheetY+int(spriteHeight))).(*ebiten.Image), p.op)
+		// draw enemies
+		for i := 0; i < g.enemies.count; i++ {
+			e := g.enemies.enemies[i]
+			g.op.GeoM.Reset()
+			g.op.GeoM.Translate(-e.width/2, -e.height)
+			g.op.GeoM.Scale(1*scaling, 1*scaling)
+			g.op.GeoM.Translate(e.x*transform, e.y)
+			screen.DrawImage(enemies.SubImage(image.Rect(e.sheetX, e.sheetY, e.sheetX+int(spriteWidth), e.sheetY+int(spriteHeight))).(*ebiten.Image), g.op)
+		}
+	case gameOver:
+		screen.Fill(color.RGBA{0, 0, 0, 255})
+	default:
+		scene = gameWorld
 	}
+	ebitenutil.DebugPrint(screen, "32-bit Squadron, v1.1.0-alpha.1")
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
