@@ -99,7 +99,7 @@ func (g *Game) Init() {
 	g.op = &ebiten.DrawImageOptions{}
 
 	g.enemies.enemies = make([]*Enemy, 100)
-	g.enemies.count = 10
+	g.enemies.count = 12 * windowWidth / baseWidth
 	for i := range g.enemies.enemies {
 		x := float64(rand.Intn(1280))
 		y := -float64(windowHeight) - float64(rand.Intn(windowHeight))
@@ -136,6 +136,7 @@ func (g *Game) Update() error {
 	animationIndex = (g.tick / 5) % frameCount
 	windowWidth, windowHeight = ebiten.WindowSize()
 	windowWidth = windowWidth * baseHeight / windowHeight
+	g.enemies.count = 12 * windowWidth / baseWidth
 	p.Update()
 	g.enemies.Update()
 	return nil
@@ -154,7 +155,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		p.op.GeoM.Translate(p.x, p.y)
 		screen.DrawImage(player.SubImage(image.Rect(p.sheetX, p.sheetY, p.sheetX+int(spriteWidth), p.sheetY+int(spriteHeight))).(*ebiten.Image), p.op)
 		// draw enemies
-		for i := 0; i < g.enemies.count; i++ {
+		for i := range g.enemies.count {
 			e := g.enemies.enemies[i]
 			g.op.GeoM.Reset()
 			g.op.GeoM.Translate(-e.width/2, -e.height)
