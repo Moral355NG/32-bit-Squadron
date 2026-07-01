@@ -39,8 +39,8 @@ type Enemy struct {
 func (e *Enemy) Update() {
 	if scene != gameWorld {
 		// enemy spawning when game is not being played
-		e.x = float64(rand.Intn(1280))
-		e.y = 0 - float64(height) - float64(rand.Intn(height))
+		e.x = float64(rand.Intn(windowWidth))
+		e.y = 0 - float64(windowHeight) - float64(rand.Intn(windowHeight))
 		e.state = rand.Intn(5)
 		switch e.state {
 		case 1:
@@ -52,11 +52,11 @@ func (e *Enemy) Update() {
 		default:
 			e.vel = 10
 		}
-	} else if e.y > float64(height*2) {
+	} else if e.y > float64(baseHeight*2) {
 		// enemy spawning when game is being played
 		points += 1
-		e.x = float64(rand.Intn(1280))
-		e.y = 0 - float64(rand.Intn(height))
+		e.x = float64(rand.Intn(windowWidth))
+		e.y = 0 - float64(rand.Intn(windowHeight))
 		e.state = rand.Intn(5)
 		switch e.state {
 		case 1:
@@ -70,19 +70,18 @@ func (e *Enemy) Update() {
 		}
 	} else {
 		// move enemy down the screen
-		e.y += e.vel * scaling
+		e.y += e.vel
 	}
 	// handle enemy animation
 	e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
 	// handle player enemy collision
 	if collide(p.hitbox(), e.hitbox()) {
 		scene = gameOver
-		g.Reset()
 	}
 }
 
 func (e *Enemy) hitbox() image.Rectangle {
-	return image.Rect(int(e.x)-32, int(e.y)-24, int(e.x)+32, int(e.y)+24)
+	return image.Rect(int(e.x-32), int(e.y-24), int(e.x+32), int(e.y+24))
 }
 
 type Enemies struct {
@@ -91,7 +90,7 @@ type Enemies struct {
 }
 
 func (e *Enemies) Update() {
-	for i := 0; i < e.count; i++ {
+	for i := range e.count {
 		e.enemies[i].Update()
 	}
 }
