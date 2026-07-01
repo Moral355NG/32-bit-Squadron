@@ -40,9 +40,11 @@ type Player struct {
 }
 
 func (p *Player) Update() {
-	p.y = float64(height)
+	p.y = float64(baseHeight)
 	// player movement and state
-	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.x > 0+p.width/2 && scene == gameWorld {
+	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
+		p.state = centre
+	} else if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.x > 0+p.width/2 && scene == gameWorld {
 		p.x -= p.vel
 		p.state = left
 	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.x < 1280-p.width/2 && scene == gameWorld {
@@ -55,11 +57,16 @@ func (p *Player) Update() {
 	if scene == gameOver && ebiten.IsKeyPressed(ebiten.KeySpace) {
 		scene = gameWorld
 		points = 0
+		p.x = float64(windowWidth) / 2
+		p.y = float64(baseHeight)
+		p.width = 64
+		p.height = 64
+		p.vel = 10
 	}
 	// player animation
 	p.sheetX, p.sheetY = int(spriteWidth)*p.state, animationIndex*int(spriteHeight)
 }
 
 func (p *Player) hitbox() image.Rectangle {
-	return image.Rect(int(p.x)-32, int(p.y)-24, int(p.x)+32, int(p.y)+24)
+	return image.Rect(int(p.x-32), int(p.y-24), int(p.x+32), int(p.y+24))
 }
