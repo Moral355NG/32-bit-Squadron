@@ -18,11 +18,7 @@ package main
 import (
 	"image"
 	"math/rand"
-
-	"github.com/hajimehoshi/ebiten/v2"
 )
-
-var g *Game
 
 type Enemy struct {
 	x, y   float64
@@ -32,8 +28,6 @@ type Enemy struct {
 	height float64
 	vel    float64
 	state  int
-	img    *ebiten.Image
-	op     *ebiten.DrawImageOptions
 }
 
 func (e *Enemy) Update() {
