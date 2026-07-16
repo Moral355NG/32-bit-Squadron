@@ -35,8 +35,6 @@ type Player struct {
 	height float64
 	vel    float64
 	state  int
-	img    *ebiten.Image
-	op     *ebiten.DrawImageOptions
 }
 
 func (p *Player) Update() {
@@ -47,7 +45,7 @@ func (p *Player) Update() {
 	} else if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.x > 0+p.width/2 && scene == gameWorld {
 		p.x -= p.vel
 		p.state = left
-	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.x < 1280-p.width/2 && scene == gameWorld {
+	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.x < float64(windowWidth)-p.width/2 && scene == gameWorld {
 		p.x += p.vel
 		p.state = right
 	} else {
@@ -55,13 +53,8 @@ func (p *Player) Update() {
 	}
 	// player speed control
 	if scene == gameOver && ebiten.IsKeyPressed(ebiten.KeySpace) {
+		g.Reset()
 		scene = gameWorld
-		points = 0
-		p.x = float64(windowWidth) / 2
-		p.y = float64(baseHeight)
-		p.width = 64
-		p.height = 64
-		p.vel = 10
 	}
 	// player animation
 	p.sheetX, p.sheetY = int(spriteWidth)*p.state, animationIndex*int(spriteHeight)
