@@ -145,30 +145,6 @@ func (g *Game) Update() error {
 	return nil
 }
 
-func (g *Game) Reset() {
-	// reset player
-	points = 0
-	p.x = float64(windowWidth) / 2
-	p.y = float64(baseHeight)
-	p.width = 64
-	p.height = 64
-	p.vel = 10
-	// reset enemies
-	e.x = float64(rand.Intn(windowWidth))
-	e.y = 0 - float64(windowHeight) - float64(rand.Intn(windowHeight))
-	e.state = rand.Intn(5)
-	switch e.state {
-	case 1:
-		e.vel = 11
-	case 3:
-		e.vel = 16
-	case 4:
-		e.vel = 12
-	default:
-		e.vel = 10
-	}
-}
-
 func (g *Game) Draw(screen *ebiten.Image) {
 	switch scene {
 	case mainMenu:

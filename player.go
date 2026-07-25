@@ -54,7 +54,12 @@ func (p *Player) Update() {
 	}
 	// player speed control
 	if scene == gameOver && ebiten.IsKeyPressed(ebiten.KeySpace) {
-		g.Reset()
+		points = 0
+		p.x = float64(windowWidth) / 2
+		p.y = float64(baseHeight)
+		p.width = 64
+		p.height = 64
+		p.vel = 10
 		scene = gameWorld
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyF4) {
