@@ -40,6 +40,7 @@ type Player struct {
 
 func (p *Player) Update() {
 	p.y = float64(baseHeight)
+	//handle player input
 	// player movement and state
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 		p.state = centre
@@ -52,7 +53,7 @@ func (p *Player) Update() {
 	} else {
 		p.state = centre
 	}
-	// player speed control
+	// reset game
 	if scene == gameOver && ebiten.IsKeyPressed(ebiten.KeySpace) {
 		points = 0
 		p.x = float64(windowWidth) / 2
