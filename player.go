@@ -19,6 +19,7 @@ import (
 	"image"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 const (
@@ -32,7 +33,7 @@ type Player struct {
 	sheetX int
 	sheetY int
 	width  float64
-	height float64
+	height float64 ``
 	vel    float64
 	state  int
 }
@@ -55,6 +56,9 @@ func (p *Player) Update() {
 	if scene == gameOver && ebiten.IsKeyPressed(ebiten.KeySpace) {
 		g.Reset()
 		scene = gameWorld
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyF4) {
+		ebiten.SetFullscreen(!ebiten.IsFullscreen())
 	}
 	// player animation
 	p.sheetX, p.sheetY = int(spriteWidth)*p.state, animationIndex*int(spriteHeight)

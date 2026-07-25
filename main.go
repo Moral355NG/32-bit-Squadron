@@ -34,9 +34,9 @@ const (
 	spriteHeight float64 = 64
 	velocity     float64 = 10
 	frameCount   int     = 2
-	mainMenu     int     = 0
-	gameWorld    int     = 1
-	gameOver     int     = 2
+	mainMenu     int     = iota
+	gameWorld
+	gameOver
 )
 
 var (
@@ -58,23 +58,13 @@ var (
 
 func init() {
 	var err error
-	/* Define window size
-	windowWidth, windowHeight = ebiten.Monitor().Size()
-	windowWidth, windowHeight = windowWidth/2, windowHeight/2*/
+	// define window size
 	windowWidth, windowHeight = 1280, 720
 	windowWidth = windowWidth * baseHeight / windowHeight
-	// Load Images
+	// load images
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/sprites/player.png")
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/sprites/enemies.png")
-	scene = gameWorld
-	p = &Player{}
-	p.x = float64(windowWidth) / 2
-	p.y = float64(windowHeight)
-	p.width = 64
-	p.height = 64
-	p.vel = 10
-	e = &Enemy{}
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -99,8 +89,10 @@ func (g *Game) Init() {
 	}()
 
 	op = &ebiten.DrawImageOptions{}
+	scene = gameWorld
 
 	// initialise enemies
+	e = &Enemy{}
 	g.enemies.enemies = make([]*Enemy, 2048)
 	g.enemies.count = 12 * windowWidth / baseWidth
 	for i := range g.enemies.enemies {
@@ -129,6 +121,14 @@ func (g *Game) Init() {
 			vel:    vel,
 		}
 	}
+
+	// initialise player
+	p = &Player{}
+	p.x = float64(windowWidth) / 2
+	p.y = float64(windowHeight)
+	p.width = 64
+	p.height = 64
+	p.vel = 10
 }
 
 func (g *Game) Update() error {
@@ -186,6 +186,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			op.GeoM.Translate(e.x, e.y)
 			screen.DrawImage(enemies.SubImage(image.Rect(e.sheetX, e.sheetY, e.sheetX+int(spriteWidth), e.sheetY+int(spriteHeight))).(*ebiten.Image), op)
 		}
+
 		// draw player
 		op.GeoM.Reset()
 		op.GeoM.Translate(-p.width/2, -p.height)
