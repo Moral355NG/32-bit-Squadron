@@ -18,9 +18,6 @@ package main
 import (
 	"image"
 	"math/rand"
-
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 type Enemy struct {
@@ -63,7 +60,7 @@ func (e *Enemy) Update() {
 		}
 	} else {
 		// reset enemy position
-		if scene == gameOver && inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		if g.start() {
 			e.x = float64(rand.Intn(windowWidth))
 			e.y = 0 - float64(windowHeight) - float64(rand.Intn(windowHeight))
 			e.state = rand.Intn(5)

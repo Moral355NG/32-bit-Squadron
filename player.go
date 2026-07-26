@@ -43,20 +43,10 @@ func (p *Player) Update() {
 	//handle player input
 
 	// player movement
-	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
-		p.state = centre
-	} else if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.x > 0+p.width/2 && scene == gameWorld {
-		p.x -= p.vel
-		p.state = left
-	} else if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.x < float64(windowWidth)-p.width/2 && scene == gameWorld {
-		p.x += p.vel
-		p.state = right
-	} else {
-		p.state = centre
-	}
+	p.move()
 
 	// reset player position
-	if scene == gameOver && inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+	if g.start() {
 		points = 0
 		p.x = float64(windowWidth) / 2
 		p.y = float64(baseHeight)
