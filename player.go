@@ -41,7 +41,8 @@ type Player struct {
 func (p *Player) Update() {
 	p.y = float64(baseHeight)
 	//handle player input
-	// player movement and state
+
+	// player movement
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 		p.state = centre
 	} else if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.x > 0+p.width/2 && scene == gameWorld {
@@ -53,8 +54,9 @@ func (p *Player) Update() {
 	} else {
 		p.state = centre
 	}
-	// reset game
-	if scene == gameOver && ebiten.IsKeyPressed(ebiten.KeySpace) {
+
+	// reset player position
+	if scene == gameOver && inpututil.IsKeyJustPressed(ebiten.KeySpace) {
 		points = 0
 		p.x = float64(windowWidth) / 2
 		p.y = float64(baseHeight)
@@ -63,9 +65,12 @@ func (p *Player) Update() {
 		p.vel = 10
 		scene = gameWorld
 	}
+
+	//fullscreen
 	if inpututil.IsKeyJustPressed(ebiten.KeyF4) {
 		ebiten.SetFullscreen(!ebiten.IsFullscreen())
 	}
+
 	// player animation
 	p.sheetX, p.sheetY = int(spriteWidth)*p.state, animationIndex*int(spriteHeight)
 }

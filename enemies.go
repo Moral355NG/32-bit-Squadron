@@ -18,6 +18,9 @@ package main
 import (
 	"image"
 	"math/rand"
+
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 type Enemy struct {
@@ -31,46 +34,50 @@ type Enemy struct {
 }
 
 func (e *Enemy) Update() {
-	if scene != gameWorld {
-		// enemy spawning when game is not being played
-		e.x = float64(rand.Intn(windowWidth))
-		e.y = 0 - float64(windowHeight) - float64(rand.Intn(windowHeight))
-		e.state = rand.Intn(5)
-		switch e.state {
-		case 1:
-			e.vel = 11
-		case 3:
-			e.vel = 16
-		case 4:
-			e.vel = 12
-		default:
-			e.vel = 10
+	if scene == gameWorld {
+		if e.y > float64(baseHeight*2) {
+			// enemy spawning when game is being played
+			points += 1
+			e.x = float64(rand.Intn(windowWidth))
+			e.y = 0 - float64(rand.Intn(windowHeight))
+			e.state = rand.Intn(5)
+			switch e.state {
+			case 1:
+				e.vel = 11
+			case 3:
+				e.vel = 16
+			case 4:
+				e.vel = 12
+			default:
+				e.vel = 10
+			}
+		} else {
+			// move enemy down the screen
+			e.y += e.vel
 		}
-	} else if e.y > float64(baseHeight*2) {
-		// enemy spawning when game is being played
-		points += 1
-		e.x = float64(rand.Intn(windowWidth))
-		e.y = 0 - float64(rand.Intn(windowHeight))
-		e.state = rand.Intn(5)
-		switch e.state {
-		case 1:
-			e.vel = 11
-		case 3:
-			e.vel = 16
-		case 4:
-			e.vel = 12
-		default:
-			e.vel = 10
+		// handle enemy animation
+		e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
+		// handle player enemy collision
+		if collide(p.hitbox(), e.hitbox()) {
+			scene = gameOver
 		}
 	} else {
-		// move enemy down the screen
-		e.y += e.vel
-	}
-	// handle enemy animation
-	e.sheetX, e.sheetY = int(spriteWidth)*e.state, animationIndex*int(spriteHeight)
-	// handle player enemy collision
-	if collide(p.hitbox(), e.hitbox()) {
-		scene = gameOver
+		// reset enemy position
+		if scene == gameOver && inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+			e.x = float64(rand.Intn(windowWidth))
+			e.y = 0 - float64(windowHeight) - float64(rand.Intn(windowHeight))
+			e.state = rand.Intn(5)
+			switch e.state {
+			case 1:
+				e.vel = 11
+			case 3:
+				e.vel = 16
+			case 4:
+				e.vel = 12
+			default:
+				e.vel = 10
+			}
+		}
 	}
 }
 
