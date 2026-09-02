@@ -50,6 +50,7 @@ var (
 	icon           *ebiten.Image
 	player         *ebiten.Image
 	enemies        *ebiten.Image
+	trees          *ebiten.Image
 	p              *Player
 	e              *Enemy
 	g              *Game
@@ -65,6 +66,7 @@ func init() {
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/sprites/player.png")
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/sprites/enemies.png")
+	trees, _, err = ebitenutil.NewImageFromFile("assets/sprites/tree.png")
 	if err != nil {
 		log.Fatal(err)
 	}
