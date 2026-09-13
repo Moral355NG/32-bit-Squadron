@@ -53,6 +53,7 @@ var (
 	trees          *ebiten.Image
 	p              *Player
 	e              *Enemy
+	obj            *Object
 	g              *Game
 	op             *ebiten.DrawImageOptions
 )
@@ -66,7 +67,7 @@ func init() {
 	icon, _, err = ebitenutil.NewImageFromFile("assets/base.png")
 	player, _, err = ebitenutil.NewImageFromFile("assets/sprites/player.png")
 	enemies, _, err = ebitenutil.NewImageFromFile("assets/sprites/enemies.png")
-	trees, _, err = ebitenutil.NewImageFromFile("assets/sprites/tree.png")
+	trees, _, err = ebitenutil.NewImageFromFile("assets/sprites/trees.png")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -74,6 +75,7 @@ func init() {
 
 type Game struct {
 	tick        int
+	objects     Objects
 	enemies     Enemies
 	initialised bool
 }
@@ -92,6 +94,27 @@ func (g *Game) Init() {
 
 	op = &ebiten.DrawImageOptions{}
 	scene = gameWorld
+
+	// initialise world
+	obj = &Object{}
+	g.objects.objects = make([]*Object, 2048)
+	g.objects.count = 32 * windowWidth / baseWidth
+	for i := range g.objects.objects {
+		x := float64(rand.Intn(1280))
+		y := -float64(windowHeight) - float64(rand.Intn(windowHeight))
+		state := rand.Intn(3)
+		width := 64.0
+		height := 64.0
+		vel := 7.0
+		g.objects.objects[i] = &Object{
+			x:      x,
+			y:      y,
+			width:  width,
+			height: height,
+			state:  state,
+			vel:    vel,
+		}
+	}
 
 	// initialise enemies
 	e = &Enemy{}
@@ -141,6 +164,8 @@ func (g *Game) Update() error {
 	animationIndex = (g.tick / 5) % frameCount
 	windowWidth, windowHeight = ebiten.WindowSize()
 	windowWidth = windowWidth * baseHeight / windowHeight
+	g.objects.count = 32 * windowWidth / baseWidth
+	g.objects.Update()
 	g.enemies.count = 12 * windowWidth / baseWidth
 	g.enemies.Update()
 	p.Update()
@@ -153,8 +178,17 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		screen.Fill(color.RGBA{50, 50, 50, 255})
 	case gameWorld:
 		screen.Fill(color.RGBA{0, 50, 0, 255})
-		// to-do: draw world
-		// to-do: draw clouds
+
+		// draw world issue: trees not drawing
+		for i := range g.objects.count {
+			obj := g.objects.objects[i]
+			op.GeoM.Reset()
+			op.GeoM.Translate(-obj.width/2, -obj.height)
+			op.GeoM.Scale(1, 1)
+			op.GeoM.Translate(obj.x, obj.y)
+			screen.DrawImage(trees.SubImage(image.Rect(obj.sheetX, obj.sheetY, obj.sheetX+int(spriteWidth), obj.sheetY+int(spriteHeight))).(*ebiten.Image), op)
+		}
+
 		// draw enemies
 		for i := range g.enemies.count {
 			e := g.enemies.enemies[i]

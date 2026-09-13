@@ -34,14 +34,13 @@ func (obj *Object) Update() {
 	if scene == gameWorld {
 		if obj.y > float64(baseHeight*2) || collide(obj.hitbox(), obj.hitbox()) {
 			// object spawning when game is being played
-			points += 1
 			obj.x = float64(rand.Intn(windowWidth))
 			obj.y = 0 - float64(rand.Intn(windowHeight))
 			obj.state = rand.Intn(3)
 			obj.vel = 7
 		} else {
 			// move object down the screen
-			obj.y += e.vel
+			obj.y += obj.vel
 		}
 		// handle object animation
 		obj.sheetX, obj.sheetY = int(spriteWidth)*obj.state, animationIndex*int(spriteHeight)
