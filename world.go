@@ -43,7 +43,7 @@ func (obj *Object) Update() {
 			obj.y += obj.vel
 		}
 		// handle object animation
-		obj.sheetX, obj.sheetY = int(spriteWidth)*obj.state, 1
+		obj.sheetX, obj.sheetY = int(spriteWidth)*obj.state, 0
 	} else {
 		// reset object position
 		if g.start() {
