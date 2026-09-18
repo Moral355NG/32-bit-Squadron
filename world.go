@@ -48,7 +48,7 @@ func (obj *Object) Update() {
 		// reset object position
 		if g.start() {
 			obj.x = float64(rand.Intn(windowWidth))
-			obj.y = float64(rand.Intn(windowHeight * 2))
+			obj.y = float64(rand.Intn(windowHeight) * 2)
 			obj.state = rand.Intn(3)
 			obj.vel = 7
 		}

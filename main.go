@@ -101,7 +101,7 @@ func (g *Game) Init() {
 	g.objects.count = 32 * windowWidth / baseWidth
 	for i := range g.objects.objects {
 		x := float64(rand.Intn(1280))
-		y := float64(rand.Intn(windowHeight * 2))
+		y := float64(rand.Intn(windowHeight) * 2)
 		state := rand.Intn(3)
 		width := 64.0
 		height := 64.0
@@ -177,7 +177,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case mainMenu:
 		screen.Fill(color.RGBA{50, 50, 50, 255})
 	case gameWorld:
-		screen.Fill(color.RGBA{0, 50, 0, 255})
+		screen.Fill(color.RGBA{8, 54, 0, 255})
 
 		// draw world issue: trees not drawing
 		for i := range g.objects.count {
