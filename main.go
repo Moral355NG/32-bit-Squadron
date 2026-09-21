@@ -98,7 +98,7 @@ func (g *Game) Init() {
 	// initialise world
 	obj = &Object{}
 	g.objects.objects = make([]*Object, 2048)
-	g.objects.count = 32 * windowWidth / baseWidth
+	g.objects.count = 256 * windowWidth / baseWidth
 	for i := range g.objects.objects {
 		x := float64(rand.Intn(1280))
 		y := float64(rand.Intn(windowHeight) * 2)
@@ -164,7 +164,7 @@ func (g *Game) Update() error {
 	animationIndex = (g.tick / 5) % frameCount
 	windowWidth, windowHeight = ebiten.WindowSize()
 	windowWidth = windowWidth * baseHeight / windowHeight
-	g.objects.count = 32 * windowWidth / baseWidth
+	g.objects.count = 256 * windowWidth / baseWidth
 	g.objects.Update()
 	g.enemies.count = 12 * windowWidth / baseWidth
 	g.enemies.Update()
