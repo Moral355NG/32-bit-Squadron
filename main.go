@@ -101,7 +101,7 @@ func (g *Game) Init() {
 	g.objects.count = 256 * windowWidth / baseWidth
 	for i := range g.objects.objects {
 		x := float64(rand.Intn(1280))
-		y := float64(rand.Intn(windowHeight) * 2)
+		y := float64(rand.Intn(windowHeight)*3) - float64(windowHeight)
 		state := rand.Intn(3)
 		width := 64.0
 		height := 64.0

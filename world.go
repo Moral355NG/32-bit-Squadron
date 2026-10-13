@@ -32,7 +32,7 @@ type Object struct {
 
 func (obj *Object) Update() {
 	if scene == gameWorld {
-		if obj.y > float64(baseHeight*2) {
+		if obj.y > float64(windowHeight*2) {
 			// object spawning when game is being played
 			obj.x = float64(rand.Intn(windowWidth))
 			obj.y = 0 - float64(rand.Intn(windowHeight))
@@ -48,7 +48,7 @@ func (obj *Object) Update() {
 		// reset object position
 		if g.start() {
 			obj.x = float64(rand.Intn(windowWidth))
-			obj.y = float64(rand.Intn(windowHeight) * 2)
+			obj.y = float64(rand.Intn(windowHeight)*3) - float64(windowHeight)
 			obj.state = rand.Intn(3)
 			obj.vel = 7
 		}
