@@ -41,12 +41,12 @@ const (
 
 var (
 	scene          int
-	biome          int
 	points         int
 	multiplier     float64
 	windowWidth    int
 	windowHeight   int
 	animationIndex int
+	biome          int
 	icon           *ebiten.Image
 	player         *ebiten.Image
 	enemies        *ebiten.Image
@@ -94,6 +94,7 @@ func (g *Game) Init() {
 
 	op = &ebiten.DrawImageOptions{}
 	scene = gameWorld
+	biome = rand.Intn(3)
 
 	// initialise world
 	obj = &Object{}

@@ -43,10 +43,11 @@ func (obj *Object) Update() {
 			obj.y += obj.vel
 		}
 		// handle object animation
-		obj.sheetX, obj.sheetY = int(spriteWidth)*obj.state, 0
+		obj.sheetX, obj.sheetY = int(spriteWidth)*obj.state, int(spriteHeight)*biome
 	} else {
 		// reset object position
 		if g.start() {
+			biome = rand.Intn(3)
 			obj.x = float64(rand.Intn(windowWidth))
 			obj.y = float64(rand.Intn(windowHeight)*3) - float64(windowHeight)
 			obj.state = rand.Intn(3)
