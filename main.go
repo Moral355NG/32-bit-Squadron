@@ -25,6 +25,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 const (
@@ -166,6 +167,13 @@ func (g *Game) Init() {
 	p.width = 64
 	p.height = 64
 	p.vel = 10
+}
+
+func (g *Game) start() bool {
+	if scene != gameWorld && inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		return true
+	}
+	return false
 }
 
 func (g *Game) Update() error {
