@@ -17,6 +17,7 @@ package main
 
 import (
 	"image"
+	"image/color"
 	"math/rand"
 )
 
@@ -48,6 +49,17 @@ func (obj *Object) Update() {
 		// reset object position
 		if g.start() {
 			biome = rand.Intn(3)
+			switch biome {
+			case 1:
+				bgColour = color.RGBA{8, 54, 0, 255}
+			case 2:
+				// to change later
+				bgColour = color.RGBA{8, 54, 0, 255}
+			case 3:
+				// to change later
+				bgColour = color.RGBA{8, 54, 0, 255}
+			}
+
 			obj.x = float64(rand.Intn(windowWidth))
 			obj.y = float64(rand.Intn(windowHeight)*3) - float64(windowHeight)
 			obj.state = rand.Intn(3)

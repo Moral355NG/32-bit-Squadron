@@ -47,6 +47,7 @@ var (
 	windowHeight   int
 	animationIndex int
 	biome          int
+	bgColour       color.RGBA
 	icon           *ebiten.Image
 	player         *ebiten.Image
 	enemies        *ebiten.Image
@@ -95,6 +96,16 @@ func (g *Game) Init() {
 	op = &ebiten.DrawImageOptions{}
 	scene = gameWorld
 	biome = rand.Intn(3)
+	switch biome {
+	case 1:
+		bgColour = color.RGBA{8, 54, 0, 255}
+	case 2:
+		// to change later
+		bgColour = color.RGBA{8, 54, 0, 255}
+	case 3:
+		// to change later
+		bgColour = color.RGBA{8, 54, 0, 255}
+	}
 
 	// initialise world
 	obj = &Object{}
@@ -178,7 +189,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case mainMenu:
 		screen.Fill(color.RGBA{50, 50, 50, 255})
 	case gameWorld:
-		screen.Fill(color.RGBA{8, 54, 0, 255})
+		screen.Fill(bgColour)
 
 		// draw world issue: trees not drawing
 		for i := range g.objects.count {
