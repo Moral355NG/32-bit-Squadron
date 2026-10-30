@@ -37,7 +37,7 @@ func (obj *Object) Update() {
 			// object spawning when game is being played
 			obj.x = float64(rand.Intn(windowWidth))
 			obj.y = 0 - float64(rand.Intn(windowHeight))
-			obj.state = rand.Intn(3)
+			obj.state = rand.Intn(4)
 			obj.vel = 7
 		} else {
 			// move object down the screen
@@ -50,18 +50,18 @@ func (obj *Object) Update() {
 		if g.start() {
 			biome = rand.Intn(3)
 			switch biome {
+			case 0:
+				bgColour = color.RGBA{8, 54, 0, 255}
 			case 1:
-				bgColour = color.RGBA{8, 54, 0, 255}
-			case 2:
 				// to change later
-				bgColour = color.RGBA{8, 54, 0, 255}
-			case 3:
-				bgColour = color.RGBA{219, 186, 80, 255}
+				bgColour = color.RGBA{218, 218, 218, 255}
+			case 2:
+				bgColour = color.RGBA{189, 167, 101, 255}
 			}
 
 			obj.x = float64(rand.Intn(windowWidth))
 			obj.y = float64(rand.Intn(windowHeight)*3) - float64(windowHeight)
-			obj.state = rand.Intn(3)
+			obj.state = rand.Intn(4)
 			obj.vel = 7
 		}
 	}
