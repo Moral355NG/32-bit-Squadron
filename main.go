@@ -104,8 +104,7 @@ func (g *Game) Init() {
 		// to change later
 		bgColour = color.RGBA{8, 54, 0, 255}
 	case 3:
-		// to change later
-		bgColour = color.RGBA{8, 54, 0, 255}
+		bgColour = color.RGBA{219, 186, 80, 255}
 	}
 
 	// initialise world
@@ -199,7 +198,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case gameWorld:
 		screen.Fill(bgColour)
 
-		// draw world issue: trees not drawing
 		for i := range g.objects.count {
 			obj := g.objects.objects[i]
 			op.GeoM.Reset()

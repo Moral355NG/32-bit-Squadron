@@ -56,8 +56,7 @@ func (obj *Object) Update() {
 				// to change later
 				bgColour = color.RGBA{8, 54, 0, 255}
 			case 3:
-				// to change later
-				bgColour = color.RGBA{8, 54, 0, 255}
+				bgColour = color.RGBA{219, 186, 80, 255}
 			}
 
 			obj.x = float64(rand.Intn(windowWidth))
